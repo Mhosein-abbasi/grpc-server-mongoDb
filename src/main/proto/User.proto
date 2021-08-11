@@ -1,0 +1,19 @@
+syntax = "proto3";
+package proto;
+
+option java_package = "org";
+option java_outer_classname = "UserRequestsProtoGrpc";
+
+message UserRequest{
+  string name = 1;
+  string family = 2;
+}
+
+message UserResponse{
+  string name = 1;
+  string family = 2;
+}
+
+service UserService {
+  rpc create (UserRequest) returns (UserResponse);
+}

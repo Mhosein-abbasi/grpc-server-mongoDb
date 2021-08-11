@@ -1,7 +1,7 @@
 package com.example.client;
 
-import org.HelloWorldRequestsProtoGrpc;
-import org.HelloWorldServiceGrpc;
+import org.UserRequestsProtoGrpc;
+import org.UserServiceGrpc;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -18,10 +18,11 @@ public class ClientApplication {
                 .usePlaintext()
                 .build();
 
-        final HelloWorldServiceGrpc.HelloWorldServiceBlockingStub stub = HelloWorldServiceGrpc.newBlockingStub(channel);
+        final UserServiceGrpc.UserServiceBlockingStub stub = UserServiceGrpc.newBlockingStub(channel);
 
-        HelloWorldRequestsProtoGrpc.sayHelloResponse response = stub.say(HelloWorldRequestsProtoGrpc.sayHelloRequest.newBuilder()
+        UserRequestsProtoGrpc.UserResponse response = stub.create(UserRequestsProtoGrpc.UserRequest.newBuilder()
                 .setName("jon")
+                .setFamily("esi")
                 .build());
 
         System.out.println(response);

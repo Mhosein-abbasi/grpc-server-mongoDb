@@ -1,20 +1,28 @@
 package com.example.server;
 
-import org.HelloWorldRequestsProtoGrpc;
-import org.HelloWorldServiceGrpc;
+import org.UserRequestsProtoGrpc;
+import org.UserServiceGrpc;
 import org.lognet.springboot.grpc.GRpcService;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import io.grpc.stub.StreamObserver;
 
 @GRpcService
-public class Controller extends HelloWorldServiceGrpc.HelloWorldServiceImplBase {
+public class Controller extends UserServiceGrpc.UserServiceImplBase {
+
+    @Autowired
+    Service service;
 
     @Override
-    public void say(HelloWorldRequestsProtoGrpc.sayHelloRequest request, StreamObserver<HelloWorldRequestsProtoGrpc.sayHelloResponse> responseObserver) {
-        String name = request.getName();
+    public void create(UserRequestsProtoGrpc.UserRequest request, StreamObserver<UserRequestsProtoGrpc.UserResponse> responseObserver) {
+        String userName = request.getName();
+        String userFamily = request.getFamily();
 
-        HelloWorldRequestsProtoGrpc.sayHelloResponse response = HelloWorldRequestsProtoGrpc.sayHelloResponse.newBuilder()
-                .setSayHello("Hello " + name)
+        User user = service.create(userName, userFamily);
+
+        UserRequestsProtoGrpc.UserResponse response = UserRequestsProtoGrpc.UserResponse.newBuilder()
+                .setName(user.getName())
+                .setFamily(user.getFamily())
                 .build();
 
         responseObserver.onNext(response);
